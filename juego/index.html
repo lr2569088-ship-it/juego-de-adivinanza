@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Adivina el Número</title>
+    <link rel="stylesheet" href="estilos.css"> 
+</head>
+<body>
+    <div class="wave-bg">
+        <svg class="wave1" viewBox="0 24 150 28" preserveAspectRatio="none">
+            <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g class="parallax">
+                <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(147, 112, 219, 0.3)" />
+            </g>
+        </svg>
+        <svg class="wave2" viewBox="0 24 150 28" preserveAspectRatio="none">
+            <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g class="parallax">
+                <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(186, 85, 211, 0.4)" />
+            </g>
+        </svg>
+        <svg class="wave3" viewBox="0 24 150 28" preserveAspectRatio="none">
+            <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g class="parallax">
+                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(221, 160, 221, 0.5)" />
+            </g>
+        </svg>
+    </div>
+
+    <div class="contenedor-juego"> 
+        <h1>Adivina el Número Secreto (1-10)</h1>
+        <p>Tienes 3 intentos para adivinar el número que he pensado.</p>
+        
+        <div class="controles">
+            <label for="numeroIngresado">Introduce un número:</label>
+            <input type="number" id="numeroIngresado" min="1" max="10">
+            <button id="btnAdivinar">Adivinar</button>
+        </div>
+
+        <div class="resultados">
+            <p id="mensaje"></p>
+            <p id="intentosRestantes">Intentos restantes: 3</p>
+        </div>
+    </div>
+    
+    <script>
+
+       
+// 1. Variables Globales
+// Genera un número aleatorio entre 1 y 10, ambos inclusive.
+// Math.random() da un número entre 0 y 1 (ej: 0.5)
+// Multiplicar por 10 da un número entre 0 y <10 (ej: 5.0)
+// Math.floor() lo redondea al entero menor (ej: 5)
+// Sumar 1 asegura que esté entre 1 y 10.
+let numeroSecreto = Math.floor(Math.random() * 10) + 1;
+let intentos = 3;
+
+// Referencias a elementos del DOM
+const inputNumero = document.getElementById('numeroIngresado');
+const btnAdivinar = document.getElementById('btnAdivinar');
+const mensajeElemento = document.getElementById('mensaje');
+const intentosElemento = document.getElementById('intentosRestantes');
+
+// 2. Función Principal para el Juego
+function verificarAdivinanza() {
+    // Convierte el valor del input a un número entero
+    const intentoUsuario = parseInt(inputNumero.value);
+
+    // Validación básica para asegurar que el número esté entre 1 y 10
+    if (isNaN(intentoUsuario) || intentoUsuario < 1 || intentoUsuario > 10) {
+        mensajeElemento.textContent = '🚨 Por favor, introduce un número válido entre 1 y 10.';
+        return; 
+    }
+
+    // 3. Comprobar el Intento
+    if (intentoUsuario === numeroSecreto) {
+        // ¡El usuario ha ganado!
+        mensajeElemento.textContent = `🥳 ¡Felicidades! ¡Adivinaste el número secreto (${numeroSecreto})!`;
+        terminarJuego(true);
+        return; // Termina la ejecución de la función
+    } else {
+        // El intento fue incorrecto
+        intentos--; // Reduce un intento
+        inputNumero.value = ''; // Limpia el campo de entrada
+
+        // Actualiza el contador de intentos en la interfaz
+        intentosElemento.textContent = `Intentos restantes: ${intentos}`;
+
+        // Da una pista (opcional, pero útil)
+        if (intentoUsuario < numeroSecreto) {
+            mensajeElemento.textContent = '❌ ¡Fallaste! El número secreto es **mayor** que tu intento.';
+        } else {
+            mensajeElemento.textContent = '❌ ¡Fallaste! El número secreto es **menor** que tu intento.';
+        }
+    }
+
+    // 4. Comprobar si se acabaron los Intentos
+    if (intentos === 0) {
+        mensajeElemento.textContent = `😢 ¡Se acabaron tus intentos! Más suerte la próxima vez. El número secreto era ${numeroSecreto}.`;
+        terminarJuego(false);
+    }
+}
+
+// 5. Función para Terminar el Juego (Desactivar el botón)
+function terminarJuego(ganado) {
+    btnAdivinar.disabled = true; // Deshabilita el botón para que no se pueda seguir jugando
+    inputNumero.disabled = true; // Deshabilita el campo de texto
+    
+    // Opcionalmente, puedes agregar un botón para Reiniciar
+    const botonReiniciar = document.createElement('button');
+    botonReiniciar.textContent = 'Jugar de Nuevo';
+    botonReiniciar.addEventListener('click', () => location.reload()); // Recarga la página
+    document.querySelector('.controles').appendChild(botonReiniciar);
+}
+
+// 6. Asignar Evento al Botón
+btnAdivinar.addEventListener('click', verificarAdivinanza);
+ // 7. Asignar Evento a la tecla ENTER
+inputNumero.addEventListener('keydown', function(event) {
+    // Comprueba si la tecla presionada es 'Enter' (código 13 o 'Enter')
+    if (event.key === 'Enter') {
+        // Evita que el navegador realice su acción predeterminada 
+        // (como enviar un formulario o recargar la página)
+        event.preventDefault(); 
+        
+        // Llama a la misma función que se ejecuta al hacer clic en el botón
+        verificarAdivinanza();
+    }
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+/* Importar una fuente de Google Fonts para un aspecto más moderno */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Montserrat:wght@400;600;700&display=swap');
+
+
+/* ================================================= */
+/* MEDIA QUERIES (ESTILOS PARA PANTALLAS PEQUEÑAS)  */
+/* ================================================= */
+
+@media (max-width: 600px) {
+    /* 1. Contenedor principal */
+    .contenedor-juego {
+        padding: 25px 30px; /* Reducimos el relleno interno */
+        border-radius: 15px;
+        /* Reducimos la intensidad del resplandor para móviles */
+        box-shadow: 0 0 20px rgba(186, 85, 211, 0.4); 
+    }
+
+    /* 2. Título (Hacemos el texto más pequeño) */
+    h1 {
+        font-size: 2em;
+    }
+
+    /* 3. Párrafos y mensajes */
+    p, label {
+        font-size: 1em;
+    }
+    
+    /* 4. Campo de entrada (Input) */
+    #numeroIngresado {
+        padding: 10px;
+        font-size: 1.2em;
+    }
+
+    /* 5. Botones (Hacemos los botones más pequeños y compactos) */
+    button {
+        padding: 12px 20px;
+        font-size: 1.2em;
+    }
+    
+    /* 6. Área de Resultados */
+    #mensaje {
+        font-size: 1.3em;
+        min-height: 1.5em;
+    }
+    
+    #intentosRestantes {
+        font-size: 1.1em;
+    }
+    
+    /* 7. Ondas (Ajustamos la altura y el ancho para móviles) */
+    .wave-bg svg {
+        height: 200px; /* Menos altura para la onda */
+        width: 300%; /* Más ancho para asegurar el efecto de movimiento */
+    }
+}
+
+/* Regla crucial para evitar el desbordamiento horizontal */
+* {
+    box-sizing: border-box; /* Asegura que padding y border se incluyan en el width/height */
+}
+
+html, body {
+    /* Oculta cualquier elemento que se desborde fuera del ancho de la pantalla */
+    overflow-x: hidden; 
+    width: 100%;
+}
+
+
+
+
+
+
+
+/* Estilos generales para el cuerpo de la página */
+body {
+    font-family: 'Montserrat', sans-serif; /* Usamos Montserrat para el texto general */
+    background: #1a1a2e; /* Fondo negro muy oscuro */
+    color: #e0e0e0; /* Texto claro */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    text-align: center;
+    overflow: hidden; /* Evita barras de desplazamiento si hay animaciones fuera de pantalla */
+    position: relative; /* Para posicionar las ondas */
+}
+
+/* Fondo de ondas lila (generado con SVG para animar) */
+.wave-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.wave-bg svg {
+    position: absolute;
+    bottom: 0;
+    width: 200%; /* Para que las ondas sean más anchas y se vean fluidas */
+    height: 300px; /* Altura de la onda */
+    animation: wave 15s linear infinite alternate; /* Animación de la onda */
+}
+
+.wave-bg .wave1 {
+    fill: rgba(147, 112, 219, 0.3); /* Lila más oscuro */
+    animation-delay: 0s;
+}
+
+.wave-bg .wave2 {
+    fill: rgba(186, 85, 211, 0.4); /* Lila medio */
+    animation-delay: -5s; /* Para que las ondas no estén sincronizadas */
+}
+
+.wave-bg .wave3 {
+    fill: rgba(221, 160, 221, 0.5); /* Lila más claro */
+    animation-delay: -10s;
+}
+
+@keyframes wave {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%); /* Mueve la onda a la izquierda */
+    }
+}
+
+
+/* Contenedor principal del juego */
+.contenedor-juego {
+    background-color: rgba(30, 30, 40, 0.95); /* Fondo gris oscuro semi-transparente */
+    border: 2px solid #9b59b6; /* Borde lila brillante */
+    padding: 40px 50px;
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(186, 85, 211, 0.6), 0 0 15px rgba(255, 255, 255, 0.1); /* Resplandor lila y sombra interna */
+    max-width: 480px;
+    width: 90%;
+    box-sizing: border-box;
+    animation: neonGlow 1.5s infinite alternate, fadeIn 1s ease-out; /* Animación de resplandor y aparición */
+}
+
+/* Animación de resplandor para el contenedor */
+@keyframes neonGlow {
+    from {
+        box-shadow: 0 0 30px rgba(186, 85, 211, 0.7), 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+    to {
+        box-shadow: 0 0 50px rgba(186, 85, 211, 0.9), 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Título */
+h1 {
+    font-family: 'Orbitron', sans-serif; /* Fuente futurista para el título */
+    color: #e0b0ff; /* Lila brillante */
+    margin-bottom: 15px;
+    font-size: 2.8em;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px #b088f5, 0 0 20px #b088f5; /* Efecto neón en el texto */
+}
+
+p {
+    margin: 10px 0 25px 0;
+    color: #c0c0c0;
+    font-size: 1.2em;
+}
+
+/* Estilos para el área de controles (input y botón) */
+.controles {
+    margin: 30px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+label {
+    font-weight: 600;
+    color: #e0e0e0;
+    text-align: center;
+    font-size: 1.3em;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+#numeroIngresado {
+    padding: 15px;
+    border: 2px solid #9b59b6; /* Borde lila */
+    border-radius: 10px;
+    font-size: 1.5em;
+    text-align: center;
+    background-color: #2a2a3e; /* Fondo oscuro para el input */
+    color: #e0e0e0;
+    width: calc(100% - 34px);
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 8px rgba(186, 85, 211, 0.3); /* Sombra interna para profundidad */
+}
+
+#numeroIngresado:focus {
+    border-color: #dda0dd; /* Lila más claro al enfocar */
+    box-shadow: 0 0 15px rgba(221, 160, 221, 0.7), inset 0 0 8px rgba(186, 85, 211, 0.5);
+    outline: none;
+}
+
+/* Botones */
+button {
+    padding: 16px 30px;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.4em;
+    font-weight: 700;
+    transition: all 0.4s ease;
+    text-transform: uppercase; /* Texto en mayúsculas */
+    letter-spacing: 1px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden; /* Para el efecto de brillo */
+}
+
+/* Efecto de brillo en el botón */
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: skewX(-30deg);
+    transition: all 0.7s ease;
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+/* Botón Adivinar */
+#btnAdivinar {
+    background-image: linear-gradient(to right, #8a2be2, #a020f0); /* Gradiente lila-violeta */
+    border: 1px solid #c8a2c8;
+}
+
+#btnAdivinar:hover {
+    background-image: linear-gradient(to right, #a020f0, #8a2be2);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(160, 32, 240, 0.6);
+}
+
+/* Estilos cuando el botón está deshabilitado (fin del juego) */
+#btnAdivinar:disabled {
+    background-image: linear-gradient(to right, #505050, #707070);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    border: none;
+}
+
+/* Área de resultados y mensajes */
+.resultados {
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 2px dashed #9b59b6; /* Borde superior punteado lila */
+}
+
+#mensaje {
+    font-size: 1.7em;
+    font-weight: 700;
+    min-height: 2em;
+    color: #d8e0ff; /* Blanco azulado para el mensaje */
+    animation: messageReveal 0.8s ease-out; /* Animación para el mensaje */
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes messageReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+#intentosRestantes {
+    color: #ff6347; /* Rojo anaranjado fuerte para los intentos */
+    font-weight: 700;
+    font-size: 1.3em;
+    margin-top: 15px;
+    text-shadow: 0 0 5px rgba(255, 99, 71, 0.3);
+}
+
+/* Estilo para el botón Reiniciar */
+.controles button:last-child:not(#btnAdivinar) {
+    background-image: linear-gradient(to right, #ffa07a, #ff6347); /* Gradiente coral-naranja */
+    border: 1px solid #ffccb3;
+    margin-top: 25px;
+}
+.controles button:last-child:not(#btnAdivinar):hover {
+    background-image: linear-gradient(to right, #ff6347, #ffa07a);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(255, 99, 71, 0.6);
+}
